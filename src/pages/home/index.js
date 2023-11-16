@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { getPets } from '../../api/petfinder';
-import Hero from '../../components/hero';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { getPets } from "../../api/petfinder";
+import Hero from "../../components/hero";
+import { useParams, Link } from "react-router-dom";
 
-// import useParams
-// import Link
 
 const HomePage = () => {
   const [data, setData] = useState(null);
-  const {type} = useParams("type"); 
+  const { type } = useParams();
 
   useEffect(() => {
     async function getPetsData() {
@@ -27,16 +25,16 @@ const HomePage = () => {
     <div className="page">
       <Hero />
       <h3>
-        <span className="pet-type-label">{type ? `${type}s` : 'Pets'}</span>{' '}
+        <span className="pet-type-label">{type ? `${type}s` : "Pets"}</span>{" "}
         available for adoption near you
       </h3>
 
       {data.length ? (
         <div className="grid">
           {data.map((animal) => (
-            <a // Change me to a Link!
+            <Link
               key={animal.id}
-              href={`/${animal.type.toLowerCase()}/${animal.id}`}
+              to={`/${animal.type.toLowerCase()}/${animal.id}`}
               className="pet"
             >
               <article>
@@ -44,10 +42,7 @@ const HomePage = () => {
                   {
                     <img
                       className="pet-image"
-                      src={
-                        animal.photos[0]?.medium ||
-                        '/missing-animal.png'
-                      }
+                      src={animal.photos[0]?.medium || "/missing-animal.png"}
                       alt=""
                     />
                   }
@@ -57,7 +52,7 @@ const HomePage = () => {
                 <p>Color: {animal.colors.primary}</p>
                 <p>Gender: {animal.gender}</p>
               </article>
-            </a> // Don't forget to change me!
+            </Link>
           ))}
         </div>
       ) : (
